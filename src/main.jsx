@@ -1,10 +1,40 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.jsx'
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import "./index.css";
 
-createRoot(document.getElementById('root')).render(
+import { createBrowserRouter } from "react-router";
+import { RouterProvider } from "react-router/dom";
+import MainLayout from "./Component/MainLayout/MainLayout";
+import Home from "./Component/Home/Home";
+import Timeline from "./Component/Timeline/Timeline";
+import Stats from "./Component/Stats/Stats";
+import CardDetis from "./Component/CardDetis/CardDetis";
+import TimelineProvider from "./Component/Context/TimelineProvider";
+import { ToastContainer } from "react-toastify";
+import NotFund from "./Component/NotFund/NotFund";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    Component: MainLayout,
+    children: [
+      { index: true, Component: Home },
+      { path: "/timeline", Component: Timeline },
+      { path: "/stats", Component: Stats },
+      { path: "/detis/:id", Component: CardDetis },
+    ],
+  },
+  {
+    path: "*",
+    Component: NotFund,
+  },
+]);
+
+createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <App />
+    <TimelineProvider>
+      <RouterProvider router={router} />
+      <ToastContainer />
+    </TimelineProvider>
   </StrictMode>,
-)
+);
